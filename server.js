@@ -1,30 +1,19 @@
-const http = require("http");
+const express = require("express");
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/health") {
-    res.writeHead(200, {
-      "Content-Type": "application/json"
-    });
-
-    res.end(
-      JSON.stringify({
-        status: "healthy",
-        application: "deployforge-test-app"
-      })
-    );
-
-    return;
-  }
-
-  res.writeHead(200, {
-    "Content-Type": "text/plain"
+app.get("/health", (_req, res) => {
+  res.json({
+    status: "healthy",
+    application: "deployforge-test-app"
   });
-
-  res.end("Hello from DeployForge again 2!");
 });
 
-server.listen(PORT, () => {
+app.get("/", (_req, res) => {
+  res.send("Hello from DeployForge again!");
+});
+
+app.listen(PORT, () => {
   console.log(`Application running on port ${PORT}`);
 });
